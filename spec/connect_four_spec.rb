@@ -50,7 +50,6 @@ describe ConnectFour do
   end
 
   describe 'available_columns' do
-
     context 'when there are available columns' do 
       let(:board_state) { [[nil, "1", "2"], ["1", "2", "1"]] }
       subject(:game_columns) { described_class.new(board_state) }
@@ -74,7 +73,25 @@ describe ConnectFour do
   end
 
   describe 'board_filled?' do
+    context 'when the board is not filled' do
+      let(:board_state) { [[nil, "1", "2"], ["1", "2", "1"]] }
+      subject(:game_unfinished) { described_class.new(board_state) }
 
+      it 'returns true' do
+        filled = game_unfinished.board_filled?
+        expect(filled).to be false
+      end
+    end
+
+    context 'when the board is filled' do
+      let(:board_state) { [["2", "1", "2"], ["1", "2", "1"]] }
+      subject(:game_finished) { described_class.new(board_state) }
+
+      it 'returns false' do
+        filled = game_finished.board_filled?
+        expect(filled).to be true
+      end
+    end
   end
 
   describe '#game_over?' do
