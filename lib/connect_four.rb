@@ -10,6 +10,15 @@ class ConnectFour
     @curr_player = curr_player
   end
 
+  def available_columns
+    #loop over first row, record indices of any nils to array
+    available = []
+    board[0].each_with_index do |elem, index|
+      available << index if elem.nil?
+    end
+    available
+  end
+
   
   private
 
