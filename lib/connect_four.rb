@@ -14,6 +14,13 @@ class ConnectFour
     @curr_player = curr_player
   end
 
+  def display_turns
+    take_turn until game_over?
+  end
+
+  def take_turn
+  end
+
   def winner?(move)
     winning_row?(move) || winning_col?(move) || winning_diag?(move)
   end
