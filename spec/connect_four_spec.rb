@@ -170,4 +170,46 @@ describe ConnectFour do
       expect { any_game.display_available_columns(cols) }.to output(phrase).to_stdout
     end
   end
+
+  describe '#get_move' do
+    let(:board_state) { [[nil, nil, nil], [nil, nil, nil]] }
+    let(:player) { double(name: "Slagathor") }
+    subject(:empty_game) { described_class.new(board_state, 1) }
+
+    context 'when given a valid number' do
+      before do
+        allow(empty_game).to receive(:gets).and_return("1")
+      end
+
+      it 'calls gets once' do
+        empty_game.player1 = player
+        expect(empty_game).to receive(:gets).once
+        empty_game.get_move
+      end
+    end
+
+    context 'when given an invalid number, followed by a valid number' do
+      before do
+        allow(empty_game).to receive(:gets).and_return("100", "3")
+      end
+
+      it 'calls gets twice' do
+        empty_game.player1 = player
+        expect(empty_game).to receive(:gets).twice
+        empty_game.get_move
+      end
+    end
+
+    context 'when given a non-number, followed by a valid number' do
+      before do
+        allow(empty_game).to receive(:gets).and_return("b", "2")
+      end
+
+      it 'calls gets twice' do
+        empty_game.player1 = player
+        expect(empty_game).to receive(:gets).twice
+        empty_game.get_move
+      end
+    end
+  end
 end
