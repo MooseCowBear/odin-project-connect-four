@@ -345,4 +345,53 @@ describe ConnectFour do
       end
     end
   end
+
+  describe '#take_turn' do 
+    subject(:game) { described_class.new }
+    let(:player_one) { double(name: "jane") }
+    let(:player_two) { double(name: "john") }
+    
+    before do
+      allow(game).to receive(:get_move).and_return([0, 0])
+      allow(game).to receive(:update_player_turn).and_return(2)
+      allow(game).to receive(:winner?).with([0, 0]).and_return(true)
+    end
+
+    it 'calls get_move' do
+      game.player1 = player_one
+      game.player2 = player_two
+      expect(game).to receive(:get_move).once
+      game.take_turn
+    end
+
+    it 'calls update_board' do
+      game.player1 = player_one
+      game.player2 = player_two
+      expect(game). to receive(:update_board).once
+      game.take_turn
+    end
+
+    it 'calls winner?' do
+      game.player1 = player_one
+      game.player2 = player_two
+      expect(game).to receive(:winner?).with([0, 0]).once.and_return(true)
+      game.take_turn
+    end
+
+    it 'calls update_player_turn' do
+      game.player1 = player_one
+      game.player2 = player_two
+      expect(game).to receive(:update_player_turn).once #WHAT IS WRONG WITH THIS?
+      game.take_turn
+    end
+    
+    context 'when the game is won' do
+      it 'calls record_winner' do
+        game.player1 = player_one
+        game.player2 = player_two
+        expect(game).to receive(:record_winner).once
+        game.take_turn
+      end
+    end
+  end
 end
