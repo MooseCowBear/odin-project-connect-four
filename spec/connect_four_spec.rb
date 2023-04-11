@@ -450,4 +450,23 @@ describe ConnectFour do
       game.play
     end
   end
+
+  describe '#print_board' do
+    let(:board_state) { 
+      [
+        [nil, nil, nil, nil, nil, nil, nil],
+        [nil, nil, nil, nil, nil, nil, nil],
+        [nil, nil, nil, "X", "O", nil, nil],
+        [nil, nil, "O", "X", "O", "O", "O"],
+        [nil, "O", "X", "X", "O", "X", "O"],
+        ["X", "X", "O", "O", "X", "O", "X"],
+      ]
+    }
+    subject(:board_game) { described_class.new(board_state) }
+
+    it 'outputs board as expected' do
+      board_output = "| 1 | 2 | 3 | 4 | 5 | 6 | 7 |\n|   |   |   |   |   |   |   |\n|   |   |   |   |   |   |   |\n|   |   |   | X | O |   |   |\n|   |   | O | X | O | O | O |\n|   | O | X | X | O | X | O |\n| X | X | O | O | X | O | X |\n"
+      expect { board_game.print_board }.to output(board_output).to_stdout
+    end
+  end
 end
