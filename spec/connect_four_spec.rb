@@ -320,4 +320,29 @@ describe ConnectFour do
       end
     end
   end
+
+  describe '#display_turns' do
+    subject(:any_game) { described_class.new }
+    context 'when game_over? is false once' do
+      before do 
+        allow(any_game).to receive(:game_over?).and_return(false, true)
+      end
+
+      it 'calls take_turn once' do
+        expect(any_game).to receive(:take_turn).once
+        any_game.display_turns
+      end
+    end
+
+    context 'when game_over? is false 3 times' do
+      before do
+        allow(any_game).to receive(:game_over?).and_return(false, false, false, true)
+      end
+
+      it 'calls take_turn 3 times' do
+        expect(any_game).to receive(:take_turn).exactly(3).times
+        any_game.display_turns
+      end
+    end
+  end
 end
