@@ -14,18 +14,26 @@ class ConnectFour
     @curr_player = curr_player
   end
 
+
+
   def get_move
     player = curr_player < 2 ? player1 : player2
     available = available_columns
     loop do 
       puts "Enter move for #{player.name}: " 
       move = gets.chomp.to_i
-      if available.include?(move)
+      if available.include?(move - 1)
         move = convert_move(move) 
         return move
       end
-      puts "Available columns are: #{available}"
+      display_available_columns
     end
+  end
+
+  def display_available_columns(available)
+    available = available.map { |elem| elem + 1 }
+    available = available.join(", ")
+    puts "Available columns are: " + available
   end
 
   def convert_move (col)
