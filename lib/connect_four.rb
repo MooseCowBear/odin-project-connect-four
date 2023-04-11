@@ -14,6 +14,29 @@ class ConnectFour
     @curr_player = curr_player
   end
 
+  def get_move
+    player = curr_player < 2 ? player1 : player2
+    available = available_columns
+    loop do 
+      puts "Enter move for #{player.name}: " 
+      move = gets.chomp.to_i
+      if available.include?(move)
+        move = convert_move(move) 
+        return move
+      end
+      puts "Available columns are: #{available}"
+    end
+  end
+
+  def convert_move (col)
+    #takes column choice, converts to [row, column]
+    board.to_enum.with_index.reverse_each do |row, index| 
+      if row[col].nil?
+        return [index, col]
+      end
+    end
+  end
+
   def get_player(player_num)
     puts "Enter name for Player #{player_num}:"
     player_name = gets.chomp
