@@ -19,6 +19,10 @@ class ConnectFour
     available
   end
 
+  def board_filled?
+    available_columns.empty?
+  end
+
   
   private
 
