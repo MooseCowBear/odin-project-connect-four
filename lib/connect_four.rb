@@ -14,6 +14,14 @@ class ConnectFour
     @curr_player = curr_player
   end
 
+  def play
+    self.player1 = get_player(1)
+    self.player2 = get_player(2)
+    announce_starting_player
+    display_turns
+    announce_result
+  end
+
   def display_turns
     take_turn until game_over?
   end
@@ -94,6 +102,14 @@ class ConnectFour
       puts row_as_string
     end
   end
+
+  def announce_starting_player
+    if curr_player == 1
+      puts "Starting player is #{player1.name}"
+    else 
+      puts "Starting player is #{player2.name}"
+    end
+  end
   
   private
 
@@ -121,7 +137,7 @@ class ConnectFour
 
     y = move[1] + 1
 
-    while y < 7
+    while y < board[0].length
       if board[x][y] == mark
         count += 1
         y += 1
