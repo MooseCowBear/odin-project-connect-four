@@ -171,6 +171,32 @@ describe ConnectFour do
     end
   end
 
+  describe '#announce_starting_player' do
+    context 'when starting player is player1' do
+      let(:board_state) { Array.new(6) { Array.new(7) } }
+      let(:player) { double(name: "jose") }
+      subject(:first_starts_game) { described_class.new(board_state, 1) }
+
+      it "outputs correct phrase with player1's name" do
+        first_starts_game.player1 = player
+        phrase = "Starting player is jose\n"
+        expect { first_starts_game.announce_starting_player }.to output(phrase).to_stdout
+      end
+    end
+
+    context 'when starting player is player2' do
+      let(:board_state) { Array.new(6) { Array.new(7) } }
+      let(:player) { double(name: "jesse") }
+      subject(:second_starts_game) { described_class.new(board_state, 2) }
+
+      it "outputs correct phrase with player2's name" do
+        second_starts_game.player2 = player
+        phrase = "Starting player is jesse\n"
+        expect { second_starts_game.announce_starting_player }.to output(phrase).to_stdout
+      end
+    end
+  end
+
   describe '#get_move' do
     let(:board_state) { [[nil, nil, nil], [nil, nil, nil]] }
     let(:player) { double(name: "Slagathor") }
@@ -381,7 +407,7 @@ describe ConnectFour do
     it 'calls update_player_turn' do
       game.player1 = player_one
       game.player2 = player_two
-      expect(game).to receive(:update_player_turn).once #WHAT IS WRONG WITH THIS?
+      expect(game).to receive(:update_player_turn).once 
       game.take_turn
     end
     
@@ -392,6 +418,36 @@ describe ConnectFour do
         expect(game).to receive(:record_winner).once
         game.take_turn
       end
+    end
+  end
+
+  describe '#play' do 
+    let(:board_state) { Array.new(6) { Array.new(7) } }
+    subject(:game) { described_class.new(board_state, 1) }
+    let(:player_one) { double(name: "winston") }
+    let(:player_two) { double(name: "cassandra") }
+
+    before do
+      allow(game).to receive(:get_player).with(1).and_return(player_one)
+      allow(game).to receive(:get_player).with(2).and_return(player_two)
+      allow(game).to receive(:get_move).and_return([0, 0])
+      allow(game).to receive(:update_player_turn).with(1, 2).and_return(2)
+      allow(game).to receive(:winner?).with([0, 0]).and_return(true)
+    end
+
+    it 'calls get_player twice' do
+      expect(game).to receive(:get_player).twice
+      game.play
+    end
+
+    it 'calls display_turns' do
+      expect(game).to receive(:display_turns).once
+      game.play
+    end
+
+    it 'calls announce_result' do
+      expect(game).to receive(:announce_result).once
+      game.play
     end
   end
 end
