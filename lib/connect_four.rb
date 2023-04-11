@@ -96,7 +96,7 @@ class ConnectFour
     board.each do |row|
       row_as_string = "|"
       row.each do |elem| 
-        add = elem.nil? ? "   |" : ` #{elem} |`
+        add = elem.nil? ? "   |" : " #{elem} |"
         row_as_string += add
       end
       puts row_as_string
@@ -113,7 +113,7 @@ class ConnectFour
   
   private
 
-  def get_mark #player1 is "X" -- temp
+  def get_mark 
     curr_player > 1 ? "O" : "X"
   end
 
