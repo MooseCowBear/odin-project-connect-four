@@ -139,5 +139,24 @@ describe ConnectFour do
     end
   end
   
-  
+  describe '#convert_move' do
+    context 'when first row is available'
+      let(:board_state) { [[nil, nil, nil], [nil, nil, nil]] }
+      subject(:first_row_game) { described_class.new(board_state) }
+
+      it 'returns [0, 1]' do
+        converted_move = first_row_game.convert_move(1)
+        expect(converted_move). to eq([1, 1])
+      end
+    end
+
+    context 'when second row is available' do
+      let(:board_state) { [[nil, nil, nil], [nil, "1", nil]] }
+      subject(:second_row_game) { described_class.new(board_state) }
+
+      it 'returns [1, 1]' do
+        converted_move = second_row_game.convert_move(1)
+        expect(converted_move). to eq([0, 1])
+      end
+  end
 end
