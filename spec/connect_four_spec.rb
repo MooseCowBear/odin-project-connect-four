@@ -126,4 +126,18 @@ describe ConnectFour do
       end
     end
   end
+
+  describe '#get_player' do 
+    subject(:game_assign_player) { described_class.new }
+    before do
+      allow(game_assign_player).to receive(:gets).and_return("martin")
+    end
+
+    it 'returns a new player with the name provided' do
+      new_player = game_assign_player.get_player(3)
+      expect(new_player).to have_attributes(:name => "martin")
+    end
+  end
+  
+  
 end
