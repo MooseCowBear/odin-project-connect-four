@@ -19,6 +19,13 @@ class ConnectFour
   end
 
   def take_turn
+    puts "The current board is: "
+    print_board
+    move = get_move
+    update_board(board, move, get_mark)
+    self.curr_player = update_player_turn(curr_player, 2)
+    game_winner = winner?(move)
+    record_winner if game_winner
   end
 
   def winner?(move)
@@ -178,5 +185,17 @@ class ConnectFour
       end
     end
     count >= 4
+  end
+
+  def record_winner
+    self.winner = curr_player > 1 ? player1 : player2 #curr player will be one ahead of winner if there is one
+  end
+
+  def announce_result
+    if winner 
+      puts "Congratulations, #{winner.name}!"
+    else
+      puts "It's a draw"
+    end
   end
 end
