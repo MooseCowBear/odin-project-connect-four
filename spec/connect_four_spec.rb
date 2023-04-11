@@ -27,15 +27,25 @@ describe ConnectFour do
       end
     end
     
-    context 'when specifying board' do
+    context 'when specifying board state' do
+      let(:board_state) { [[nil, "1"], ["1", "2"]] }
+      subject(:not_default_game) { described_class.new(board_state) }
 
+      it 'sets board to specified board' do
+        board = not_default_game.board
+        expect(board).to eq(board_state)
+      end
     end
 
-    context 'when specifying players' do
-    end
+    context 'when also specifying curr_player' do
+      let(:board_state) { [[nil, "1"], ["1", "2"]] }
+      let(:set_curr_player) { 2 }
+      subject(:not_default_game) { described_class.new(board_state, set_curr_player) }
 
-    context 'when specifying curr_player' do
-
+      it 'equals 2' do
+        player = not_default_game.curr_player
+        expect(player).to eq(2)
+      end
     end
   end
 
