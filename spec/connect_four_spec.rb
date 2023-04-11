@@ -69,7 +69,6 @@ describe ConnectFour do
         expect(available_columns). to eq([])
       end
     end
-
   end
 
   describe 'board_filled?' do
@@ -95,5 +94,36 @@ describe ConnectFour do
   end
 
   describe '#game_over?' do
+    context 'when the board is filled' do
+      let(:board_state) { [["2", "1", "2"], ["1", "2", "1"]] }
+      subject(:game_finished) { described_class.new(board_state) }
+
+      it 'returns true' do
+        over = game_finished.game_over?
+        expect(over).to be true
+      end
+    end
+
+    context 'when the board is not filled, but there is a winner' do
+      let(:set_winner) { double(name: "Frank") }
+      let(:board_state) { [[nil, nil, "2"], ["1", "2", "1"]] }
+      subject(:game_finished) { described_class.new(board_state) }
+
+      it 'returns true' do
+        game_finished.winner = set_winner
+        over = game_finished.game_over?
+        expect(over).to be true
+      end
+    end
+
+    context 'when the board is not filled and there is no winner' do
+      let(:board_state) { [[nil, nil, "2"], ["1", "2", "1"]] }
+      subject(:game_unfinished) { described_class.new(board_state) }
+
+      it 'returns false' do
+        over = game_unfinished.game_over?
+        expect(over).to be false
+      end
+    end
   end
 end
