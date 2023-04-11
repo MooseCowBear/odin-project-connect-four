@@ -26,7 +26,7 @@ class ConnectFour
         move = convert_move(move) 
         return move
       end
-      display_available_columns
+      display_available_columns(available)
     end
   end
 
