@@ -14,7 +14,9 @@ class ConnectFour
     @curr_player = curr_player
   end
 
-
+  def winner?(move)
+    winning_row?(move) || winning_col?(move) || winning_diag?(move)
+  end
 
   def get_move
     player = curr_player < 2 ? player1 : player2
@@ -52,7 +54,6 @@ class ConnectFour
   end
 
   def available_columns
-    #loop over first row, record indices of any nils to array
     available = []
     board[0].each_with_index do |elem, index|
       available << index if elem.nil?
@@ -67,10 +68,108 @@ class ConnectFour
   def game_over?
     board_filled? || !winner.nil?
   end
+
+  def print_board
+    puts "| 1 | 2 | 3 | 4 | 5 | 6 | 7 |"
+    board.each do |row|
+      row_as_string = "|"
+      row.each do |elem| 
+        add = elem.nil? ? "   |" : ` #{elem} |`
+        row_as_string += add
+      end
+      puts row_as_string
+    end
+  end
   
   private
 
+  def get_mark #player1 is "X" -- temp
+    curr_player > 1 ? "O" : "X"
+  end
+
   def get_starting_board
     Array.new(6) { Array.new(7) }
+  end
+
+  def winning_row?(move)
+    x, y = move
+    mark = get_mark
+    count = 0
+
+    while y > -1
+      if board[x][y] == mark
+        count += 1
+        y -= 1
+      else
+        break
+      end
+    end
+
+    y = move[1] + 1
+
+    while y < 7
+      if board[x][y] == mark
+        count += 1
+        y += 1
+      else
+        break
+      end
+    end
+    count >= 4
+  end
+
+  def winning_col?(move)
+    x, y = move
+    mark = get_mark
+
+    count = 0
+    
+    while x < board.length
+      if board[x][y] == mark
+        count += 1
+        x += 1
+      else
+        break
+      end
+    end
+    count >= 4
+  end
+
+  def winning_diag?(move)
+    left_right_diag?(move) || right_left_diag?(move)
+  end
+
+  def left_right_diag?(move)
+    x, y = move
+    mark = get_mark
+    count = 0
+
+    while x < board.length && y < board[0].length
+      if board[x][y] == mark
+        count += 1
+        x += 1
+        y += 1
+      else
+        break
+      end
+    end
+    count >= 4
+  end
+
+  def right_left_diag?(move)
+    x, y = move
+    mark = get_mark
+    count = 0
+
+    while x < board.length && y > -1
+      if board[x][y] == mark
+        count += 1
+        x += 1
+        y -= 1
+      else
+        break
+      end
+    end
+    count >= 4
   end
 end
