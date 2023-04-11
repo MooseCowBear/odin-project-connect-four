@@ -212,4 +212,112 @@ describe ConnectFour do
       end
     end
   end
+
+  describe '#winner?' do
+    context 'when move completes a row' do
+      let(:board_state) { 
+        [
+          [nil, nil, nil, nil],
+          [nil, nil, nil, nil],
+          ["X", "X", "X", "X"],
+          ["X", "O", "O", "X"],
+        ]
+      }
+      subject(:winning_row_game) { described_class.new(board_state, 1) }
+      it 'returns true' do 
+        move = [2, 0]
+        won = winning_row_game.winner?(move)
+        expect(won).to be true
+      end
+    end
+
+    context 'when move completes a row by joining two parts' do
+      let(:board_state) { 
+        [
+          [nil, nil, nil, nil],
+          [nil, nil, nil, nil],
+          ["X", "X", "X", "X"],
+          ["X", "O", "O", "X"],
+        ]
+      }
+      subject(:winning_row_game) { described_class.new(board_state, 1) }
+
+      it 'returns true' do
+        move = [2, 1]
+        won = winning_row_game.winner?(move)
+        expect(won).to be true
+      end
+    end
+
+    context 'when move completes a column' do
+      let(:board_state) { 
+        [
+          [nil, nil, nil, "X"],
+          [nil, nil, nil, "X"],
+          ["O", "X", "X", "X"],
+          ["X", "O", "O", "X"],
+        ]
+      }
+      subject(:winning_col_game) { described_class.new(board_state, 1) }
+
+      it 'returns true' do 
+        move = [0, 3]
+        won = winning_col_game.winner?(move)
+        expect(won).to be true
+      end
+    end
+
+    context 'when move completes a left-right diagonal' do
+      let(:board_state) { 
+        [
+          ["X", nil, nil, nil],
+          ["O", "X", "O", "O"],
+          ["O", "X", "X", "X"],
+          ["X", "O", "O", "X"],
+        ]
+      }
+      subject(:winning_diag_game) { described_class.new(board_state, 1) }
+
+      it 'returns true' do 
+        move = [0, 0]
+        won = winning_diag_game.winner?(move)
+        expect(won).to be true
+      end
+    end
+
+    context 'when move completes a right-left diagonal' do
+      let(:board_state) { 
+        [
+          [nil, nil, nil, "X"],
+          [nil, nil, "X", "O"],
+          ["O", "X", "X", "X"],
+          ["X", "O", "O", "X"],
+        ]
+      }
+      subject(:winning_diag_game) { described_class.new(board_state, 1) }
+
+      it 'returns true' do 
+        move = [0, 3]
+        won = winning_diag_game.winner?(move)
+        expect(won).to be true
+      end
+    end
+
+    context 'when move does not complete any 4 next to each other' do
+      let(:board_state) { 
+        [
+          [nil, nil, nil, nil],
+          [nil, nil, nil, nil],
+          ["X", "O", "X", "X"],
+          ["X", "O", "O", "X"],
+        ]
+      }
+      subject(:no_winning_game) { described_class.new(board_state, 1) }
+      it 'returns false' do 
+        move = [0, 2]
+        won = no_winning_game.winner?(move)
+        expect(won).to be false
+      end
+    end
+  end
 end
