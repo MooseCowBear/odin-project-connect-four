@@ -1,6 +1,6 @@
 
 class ConnectFour
-  attr_accessor :player1, :player2, :board, :curr_player
+  attr_accessor :player1, :player2, :board, :curr_player, :winner
 
   def initialize(board = get_starting_board, curr_player = rand(1..2))
     @winner = nil
@@ -23,6 +23,9 @@ class ConnectFour
     available_columns.empty?
   end
 
+  def game_over?
+    board_filled? || !winner.nil?
+  end
   
   private
 
