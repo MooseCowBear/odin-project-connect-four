@@ -1,5 +1,9 @@
+require_relative './board_game.rb'
+require_relative './player.rb'
 
 class ConnectFour
+  include BoardGame
+
   attr_accessor :player1, :player2, :board, :curr_player, :winner
 
   def initialize(board = get_starting_board, curr_player = rand(1..2))
@@ -8,6 +12,12 @@ class ConnectFour
     @player2 = nil
     @board = board
     @curr_player = curr_player
+  end
+
+  def get_player(player_num)
+    puts "Enter name for Player #{player_num}:"
+    player_name = gets.chomp
+    Player.new(player_name)
   end
 
   def available_columns
