@@ -129,6 +129,7 @@ describe ConnectFour do
 
   describe '#get_player' do 
     subject(:game_assign_player) { described_class.new }
+
     before do
       allow(game_assign_player).to receive(:gets).and_return("martin")
     end
@@ -140,7 +141,7 @@ describe ConnectFour do
   end
   
   describe '#convert_move' do
-    context 'when first row is available'
+    context 'when first row is available' do
       let(:board_state) { [[nil, nil, nil], [nil, nil, nil]] }
       subject(:first_row_game) { described_class.new(board_state) }
 
@@ -158,5 +159,15 @@ describe ConnectFour do
         converted_move = second_row_game.convert_move(1)
         expect(converted_move). to eq([0, 1])
       end
+    end
+  end
+
+  describe '#display_available_columns' do
+    subject(:any_game) { described_class.new }
+    it 'outputs correct phrase when there are columns available' do
+      phrase = "Available columns are: 1, 2, 3, 4\n"
+      cols = [0, 1, 2, 3]
+      expect { any_game.display_available_columns(cols) }.to output(phrase).to_stdout
+    end
   end
 end
