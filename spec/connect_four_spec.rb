@@ -49,5 +49,34 @@ describe ConnectFour do
     end
   end
 
+  describe 'available_columns' do
 
+    context 'when there are available columns' do 
+      let(:board_state) { [[nil, "1", "2"], ["1", "2", "1"]] }
+      subject(:game_columns) { described_class.new(board_state) }
+
+      it 'returns [0] when only nil appears in first row, first column' do
+        available_columns = game_columns.available_columns
+        expect(available_columns). to eq([0])
+      end
+    end
+
+    context 'when there are no available columns' do
+      let(:board_state) { [["2", "1", "2"], ["1", "2", "1"]] }
+      subject(:game_columns) { described_class.new(board_state) }
+
+      it 'returns [] when no nil appears in first row' do
+        available_columns = game_columns.available_columns
+        expect(available_columns). to eq([])
+      end
+    end
+
+  end
+
+  describe 'board_filled?' do
+
+  end
+
+  describe '#game_over?' do
+  end
 end
