@@ -19,6 +19,7 @@ class ConnectFour
     self.player2 = get_player(2)
     announce_starting_player
     display_turns
+    print_board #printing final board
     announce_result
   end
 
@@ -31,9 +32,9 @@ class ConnectFour
     print_board
     move = get_move
     update_board(board, move, get_mark)
-    self.curr_player = update_player_turn(curr_player, 2)
     game_winner = winner?(move)
     record_winner if game_winner
+    self.curr_player = update_player_turn(curr_player, 2)
   end
 
   def winner?(move)
@@ -47,7 +48,7 @@ class ConnectFour
       puts "Enter move for #{player.name}: " 
       move = gets.chomp.to_i
       if available.include?(move - 1)
-        move = convert_move(move) 
+        move = convert_move(move - 1) 
         return move
       end
       display_available_columns(available)
@@ -204,7 +205,7 @@ class ConnectFour
   end
 
   def record_winner
-    self.winner = curr_player > 1 ? player1 : player2 #curr player will be one ahead of winner if there is one
+    self.winner = curr_player > 1 ? player2 : player1 
   end
 
   def announce_result
